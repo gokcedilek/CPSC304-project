@@ -1,2 +1,1 @@
-# 304project
-💃💃💃Our wonderful 304 project🎉🎉🎉🎉🎉
+Welcome to our exciting project!
