@@ -1,10 +1,9 @@
 package com.chairfactory.db;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.sql.DataSource;
 import javax.inject.Inject;
@@ -14,12 +13,21 @@ public class APIController {
     @Inject
     DataSource ds;
 
-    @GetMapping("/createOrder")
-    public void createOrder(@RequestParam int quantity,
-                              @RequestParam String blueprint, @RequestParam String purchaser) {
+    static class CreateOrderData {
+        public int quantity;
+        public String blueprint;
+        public String purchaser;
+    }
+
+    @PostMapping("/createOrder")
+    public void createOrder(@RequestBody CreateOrderData data) {
+        if (data.quantity == 0 || data.blueprint.length() == 0 || data.purchaser.length() == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oops - looks like one of your params is invalid!");
+        }
+
         JdbcTemplate jt = new JdbcTemplate(ds);
         jt.update("insert into purchases (quantity, blueprint_size, purchaser_username) values (?, ?, ?)",
-                quantity, blueprint, purchaser);
+                data.quantity, data.blueprint, data.purchaser);
     }
 
     @RequestMapping("/celebrationStation")
