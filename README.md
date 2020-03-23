@@ -25,5 +25,5 @@ How to use the pgAdmin interface for the database:
 1. download the .dmg file from https://www.pgadmin.org/download/
 2. after opening pgAdmin from the browser, click "create new server"
 3. "general" tab: name the database
-4. "connection" tab: Hostname is "drona.db.elephantsql.com" (in our case), Port is "5432", Maintenance database and Username are "nfxwiszf", and Password is <password>. These can be found from the application.properties file in the project folder, or under the "Details" tab in ElephantSQL.
-5. Once it's created in pgAdmin, go to Databases -> <username> (from above) -> Schemas -> Tables
+4. "connection" tab: Hostname is "drona.db.elephantsql.com" (in our case), Port is "5432", Maintenance database and Username are "nfxwiszf", and Password is the password:). These can be found from the application.properties file in the project folder, or under the "Details" tab in ElephantSQL.
+5. Once it's created in pgAdmin, go to Databases -> 'username' (from above) -> Schemas -> Tables
