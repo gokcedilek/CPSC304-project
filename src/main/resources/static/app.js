@@ -1,4 +1,5 @@
 // Set up alerts to be close-able
+
 $('.alert').on('click','.close',function(){
     $(this).closest('.alert').fadeOut();
 });
@@ -27,3 +28,43 @@ function setUpCreateOrder() {
 
 // Let's set up the create order portion!
 setUpCreateOrder();
+
+function setUpFindAll() {
+    $("#find_all").on("click", function (e) {
+        e.preventDefault();
+
+        axios.get("/findAll")
+            .then((res) => {
+                console.log("findAll successful!");
+                console.log(res);
+            }).catch((err) => {
+                console.log("findAll failed!");
+                console.log(err);
+        })
+    });
+}
+
+setUpFindAll();
+
+function setUpSelectOrder() {
+    $("#select_orders").on("click", function (e) {
+        e.preventDefault();
+
+        const quantity = $("#quantity-2").val();
+        const blueprint = $("#blueprint_size-2").val();
+        axios.get("/selectOrders", {
+            params: {
+                quantity: quantity,
+                blueprint: blueprint
+            }
+        }).then((res) => {
+            console.log("selection successful!");
+            console.log(res);
+        }).catch((err) => {
+            console.log("selection failed!");
+            console.log(err);
+        })
+    });
+}
+
+setUpSelectOrder();
