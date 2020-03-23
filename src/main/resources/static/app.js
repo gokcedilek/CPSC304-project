@@ -1,4 +1,5 @@
 // Set up alerts to be close-able
+
 $('.alert').on('click','.close',function(){
     $(this).closest('.alert').fadeOut();
 });
@@ -27,3 +28,62 @@ function setUpCreateOrder() {
 
 // Let's set up the create order portion!
 setUpCreateOrder();
+
+function setUpFindAll() {
+    $("#find_all_submit").on("click", function (e) {
+        e.preventDefault();
+
+        axios.get("/findAll")
+            .then((res) => {
+                console.log("findAll successful!");
+                console.log(res);
+            }).catch((err) => {
+                console.log("findAll failed!");
+                console.log(err);
+        })
+    });
+}
+
+setUpFindAll();
+
+function setUpSelectOrder() {
+    $("#select_order_submit").on("click", function (e) {
+        e.preventDefault();
+
+        const quantity = $("#select_order_quantity").val();
+        const blueprint = $("#select_order_blueprint_size").val();
+        axios.get("/selectOrders", {
+            params: {
+                quantity: quantity,
+                blueprint: blueprint
+            }
+        }).then((res) => {
+            console.log("selection successful!");
+            console.log(res);
+        }).catch((err) => {
+            console.log("selection failed!");
+            console.log(err);
+        })
+    });
+}
+
+setUpSelectOrder();
+
+function setUpDeleteOrder(){
+    $("#delete_order_submit").on("click", function (e) {
+        e.preventDefault();
+
+        const order_id = $("#delete_order_id").val();
+        axios.post("/deleteOrder", {
+            order_id: parseInt(order_id)
+        }).then((res) => {
+            console.log("deletion successful!");
+            console.log(res + " rows deleted.");
+        }).catch((err) => {
+            console.log("deletion failed!");
+            console.log(err);
+        })
+    });
+}
+
+setUpDeleteOrder();
