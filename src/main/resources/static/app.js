@@ -30,7 +30,7 @@ function setUpCreateOrder() {
 setUpCreateOrder();
 
 function setUpFindAll() {
-    $("#find_all").on("click", function (e) {
+    $("#find_all_submit").on("click", function (e) {
         e.preventDefault();
 
         axios.get("/findAll")
@@ -47,11 +47,11 @@ function setUpFindAll() {
 setUpFindAll();
 
 function setUpSelectOrder() {
-    $("#select_orders").on("click", function (e) {
+    $("#select_order_submit").on("click", function (e) {
         e.preventDefault();
 
-        const quantity = $("#quantity-2").val();
-        const blueprint = $("#blueprint_size-2").val();
+        const quantity = $("#select_order_quantity").val();
+        const blueprint = $("#select_order_blueprint_size").val();
         axios.get("/selectOrders", {
             params: {
                 quantity: quantity,
@@ -70,15 +70,12 @@ function setUpSelectOrder() {
 setUpSelectOrder();
 
 function setUpDeleteOrder(){
-    $("#delete_order").on("click", function (e) {
+    $("#delete_order_submit").on("click", function (e) {
         e.preventDefault();
 
-        const order_id = $("#order_id").val();
-        console.log("id: " + order_id);
+        const order_id = $("#delete_order_id").val();
         axios.post("/deleteOrder", {
-            params: {
-                order_id: order_id
-            }
+            order_id: parseInt(order_id)
         }).then((res) => {
             console.log("deletion successful!");
             console.log(res + " rows deleted.");
