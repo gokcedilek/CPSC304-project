@@ -68,3 +68,25 @@ function setUpSelectOrder() {
 }
 
 setUpSelectOrder();
+
+function setUpDeleteOrder(){
+    $("#delete_order").on("click", function (e) {
+        e.preventDefault();
+
+        const order_id = $("#order_id").val();
+        console.log("id: " + order_id);
+        axios.post("/deleteOrder", {
+            params: {
+                order_id: order_id
+            }
+        }).then((res) => {
+            console.log("deletion successful!");
+            console.log(res + " rows deleted.");
+        }).catch((err) => {
+            console.log("deletion failed!");
+            console.log(err);
+        })
+    });
+}
+
+setUpDeleteOrder();

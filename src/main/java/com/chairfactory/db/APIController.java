@@ -55,11 +55,12 @@ public class APIController {
         return orders;
     }
 
-//    @PostMapping("/deleteOrder")
-//    public void deleteOrder(@RequestParam int orderid) {
-//      //"delete from table ..."
-//    }
-
+    @PostMapping("/deleteOrder")
+    public int deleteOrder(@RequestParam int order_id) {
+        JdbcTemplate jt = new JdbcTemplate(ds);
+        int rows = jt.update("delete from purchases where id = ?", new Object[] {order_id});
+        return rows;
+    }
 
     @RequestMapping("/celebrationStation")
     public String celebrationStation() {
