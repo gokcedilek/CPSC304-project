@@ -66,6 +66,14 @@ public class APIController {
         return rows;
     }
 
+    @GetMapping("/getOrderLocation")
+    public String getOrderLocation(@RequestParam int id) {
+        JdbcTemplate jt = new JdbcTemplate(ds);
+        //map a single row to a String object:
+        String username = jt.queryForObject("select purchaser_username from purchases where id = ?", new Object[]{id}, String.class);
+        return username;
+    }
+
     @RequestMapping("/celebrationStation")
     public String celebrationStation() {
         return "\uD83C\uDF89\uD83C\uDF89\uD83C\uDF89\uD83C\uDF89\uD83C\uDF89\uD83C\uDF89\uD83C\uDF89\uD83C\uDF89";

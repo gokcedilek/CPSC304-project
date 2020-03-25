@@ -87,3 +87,25 @@ function setUpDeleteOrder(){
 }
 
 setUpDeleteOrder();
+
+
+function setUpGetOrderLocation() {
+    $("#get_location_submit").on("click", function (e) {
+        e.preventDefault();
+
+        const id = $("#get_location_id").val();
+        axios.get("/getOrderLocation", {
+            params: {
+                id: id
+            }
+        }).then((res) => {
+            console.log("received the username!");
+            console.log(res);
+        }).catch((err) => {
+            console.log("could not receive the username!");
+            console.log(err);
+        })
+    });
+}
+
+setUpGetOrderLocation();
