@@ -67,11 +67,11 @@ public class APIController {
     }
 
     @GetMapping("/getOrderLocation")
-    public String getOrderLocation(@RequestParam int id) {
+    public Location getOrderLocation(@RequestParam int id) {
         JdbcTemplate jt = new JdbcTemplate(ds);
-        //map a single row to a String object:
         String username = jt.queryForObject("select purchaser_username from purchases where id = ?", new Object[]{id}, String.class);
-        return username;
+        Location location = jt.queryForObject("select country, city from purchaser where username = ?", new Object[]{username}, new LocationRowMapper());
+        return location;
     }
 
     @RequestMapping("/celebrationStation")

@@ -99,10 +99,10 @@ function setUpGetOrderLocation() {
                 id: id
             }
         }).then((res) => {
-            console.log("received the username!");
+            console.log("received the location!");
             console.log(res);
         }).catch((err) => {
-            console.log("could not receive the username!");
+            console.log("could not receive the location!");
             console.log(err);
         })
     });

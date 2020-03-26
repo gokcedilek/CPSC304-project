@@ -17,18 +17,18 @@
 --         ON UPDATE CASCADE
 -- )
 
--- CREATE TABLE Purchaser (
---     username VARCHAR(64), 
---     user_password VARCHAR(32), 
---     full_name VARCHAR(32), 
---     country VARCHAR(100) NOT NULL, 
---     city VARCHAR(200) NOT NULL, 
+CREATE TABLE purchaser (
+    username VARCHAR(64),
+    user_password VARCHAR(32),
+    full_name VARCHAR(32),
+    country VARCHAR(100) NOT NULL,
+    city VARCHAR(200) NOT NULL,
 
---     PRIMARY KEY (username),
---     FOREIGN KEY (country, city) REFERENCES purchase_location 
---     ON UPDATE CASCADE 
---     ON DELETE NO ACTION
--- )
+    PRIMARY KEY (username),
+    FOREIGN KEY (country, city) REFERENCES purchase_location
+    ON UPDATE CASCADE
+    ON DELETE NO ACTION
+)
 
 CREATE TABLE purchase_location (
     country VARCHAR(100),
