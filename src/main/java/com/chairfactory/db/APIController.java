@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.sql.DataSource;
 import javax.inject.Inject;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class APIController {
@@ -64,6 +62,21 @@ public class APIController {
         JdbcTemplate jt = new JdbcTemplate(ds);
         int rows = jt.update("delete from purchases where id = ?", new Object[] {data.order_id});
         return rows;
+    }
+
+    @GetMapping("/getOrderLocation")
+    public Location getOrderLocation(@RequestParam int id) {
+        JdbcTemplate jt = new JdbcTemplate(ds);
+        String username = jt.queryForObject("select purchaser_username from purchases where id = ?", new Object[]{id}, String.class);
+        Location location = jt.queryForObject("select country, city from purchaser where username = ?", new Object[]{username}, new LocationRowMapper());
+        return location;
+    }
+
+    @GetMapping("/getNumOrders")
+    public List<BPCount> getNumOrders() {
+        JdbcTemplate jt = new JdbcTemplate(ds);
+        List<BPCount> bpcounts = jt.query("select blueprint_size, count(*) from purchases group by blueprint_size", new BPCountRowMapper());
+        return bpcounts;
     }
 
     @RequestMapping("/celebrationStation")
