@@ -10,3 +10,4 @@ projectName.iml
 target/
 .project
 .settings/
+*.log

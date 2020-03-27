@@ -109,3 +109,20 @@ function setUpGetOrderLocation() {
 }
 
 setUpGetOrderLocation();
+
+function setUpGetNumOrders() {
+    $("#get_num_orders_submit").on("click", function (e) {
+        e.preventDefault();
+
+        axios.get("/getNumOrders")
+            .then((res) => {
+                console.log("getNumOrders successful!");
+                console.log(res);
+            }).catch((err) => {
+            console.log("getNumOrders failed!");
+            console.log(err);
+        })
+    });
+}
+
+setUpGetNumOrders();
