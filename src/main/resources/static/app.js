@@ -16,12 +16,14 @@ function setUpCreateOrder() {
             quantity: parseInt(quantity),
             blueprint: blueprint,
             purchaser: purchaser
-        }).then(() => {
+        }).then((res) => {
             $("#create_order_fail_alert").hide();
             $("#create_order_success_alert").fadeIn();
-        }).catch(() => {
+            console.log(res);
+        }).catch((err) => {
             $("#create_order_fail_alert").fadeIn();
             $("#create_order_success_alert").hide();
+            console.log(err);
         })
     });
 }
@@ -126,3 +128,20 @@ function setUpGetNumOrders() {
 }
 
 setUpGetNumOrders();
+
+function setUpGetPartNames() {
+    $("#get_part_names_submit").on("click", function (e) {
+        e.preventDefault();
+
+        axios.get("/getParts")
+            .then((res) => {
+                console.log("getParts successful!");
+                console.log(res);
+            }).catch((err) => {
+            console.log("getParts failed!");
+            console.log(err);
+        })
+    });
+}
+
+setUpGetPartNames();
