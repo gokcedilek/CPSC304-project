@@ -88,12 +88,18 @@ public class APIController {
         return bpcounts;
     }
 
+//    @GetMapping("/getParts")
+//    public List<Part> getParts() {
+//        JdbcTemplate jt = new JdbcTemplate(ds);
+//        String sql = "select pt.name from PartType pt where not exists ( (select cb.size from ChairBlueprint cb) except (select brp.blueprint_size from ChairBlueprintRequiresPartType brp where brp.part_id = pt.id) )";
+//        List<Part> part_names = jt.query(sql, new PartRowMapper());
+//        return part_names;
+//    }
     @GetMapping("/getParts")
-    public List<Part> getParts() {
+    public List<String> getParts() {
         JdbcTemplate jt = new JdbcTemplate(ds);
         String sql = "select pt.name from PartType pt where not exists ( (select cb.size from ChairBlueprint cb) except (select brp.blueprint_size from ChairBlueprintRequiresPartType brp where brp.part_id = pt.id) )";
-        List<Part> part_names = jt.query(sql, new PartRowMapper());
-        return part_names;
+        return jt.queryForList(sql, String.class);
     }
 
     @RequestMapping("/celebrationStation")

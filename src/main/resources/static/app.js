@@ -40,10 +40,11 @@ function setUpFindAll() {
                 $("#find_all_fail_alert").hide();
                 console.log("findAll successful!");
                 let html;
+                console.log(res.data);
                 if(res.data.length){
                     html = "<ul>";
-                    for(let item in res.data) {
-                        let line = `id: ${res.data[item].id}, quantity: ${res.data[item].quantity}, blueprint size: ${res.data[item].blueprint_size}, purchaser: ${res.data[item].purchaser_username}`;
+                    for(let item of res.data) {
+                        let line = `id: ${item.id}, quantity: ${item.quantity}, blueprint size: ${item.blueprint_size}, purchaser: ${item.purchaser_username}`;
                         html += `<li> ${line} </li>`;
                     }
                     html += "</ul>";
@@ -81,8 +82,8 @@ function setUpSelectOrder() {
             let html;
             if(res.data.length) {
                 html = "<ul>";
-                for(let item in res.data) {
-                    let line = `id: ${res.data[item].id}, quantity: ${res.data[item].quantity}, blueprint size: ${res.data[item].blueprint_size}, purchaser: ${res.data[item].purchaser_username}`;
+                for(let item of res.data) {
+                    let line = `id: ${item.id}, quantity: ${item.quantity}, blueprint size: ${item.blueprint_size}, purchaser: ${item.purchaser_username}`;
                     html += `<li> ${line} </li>`;
                 }
                 html += "</ul>";
@@ -113,7 +114,7 @@ function setUpDeleteOrder(){
             $("#delete_order_fail_alert").hide();
             console.log("deletion successful!");
             //console.log(res + " rows deleted.");
-            let html = `<em> Order with id: ${order_id} is deleted. </em>`;
+            let html = `Order with id: ${order_id} is deleted.`;
             $("#delete_order_success_alert").html(html);
             $("#delete_order_success_alert").fadeIn();
         }).catch((err) => {
@@ -168,8 +169,8 @@ function setUpGetNumOrders() {
                 let html;
                 if(res.data.length) {
                     html = "<ul>";
-                    for(let item in res.data) {
-                        let line = `blueprint: ${res.data[item].blueprint_size}, count: ${res.data[item].bp_count}`;
+                    for(let item of res.data) {
+                        let line = `blueprint: ${item.blueprint_size}, count: ${item.bp_count}`;
                         html += `<li> ${line} </li>`;
                     }
                     html += "</ul>";
@@ -199,9 +200,10 @@ function setUpGetPartNames() {
                 console.log("getParts successful!");
                 let html;
                 if(res.data.length) {
+                    console.log(res.data);
                     html = "<ul>";
-                    for(let item in res.data) {
-                        let line = `part name: ${res.data[item].part_name}`;
+                    for(let item of res.data) {
+                        let line = `part name: ${item}`;
                         html += `<li> ${line} </li>`;
                     }
                     html += "</ul>";
