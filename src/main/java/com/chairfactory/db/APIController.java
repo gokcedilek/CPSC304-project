@@ -77,8 +77,7 @@ public class APIController {
     @GetMapping("/getOrderLocation")
     public Location getOrderLocation(@RequestParam int id) {
         JdbcTemplate jt = new JdbcTemplate(ds);
-        String username = jt.queryForObject("select purchaser_username from Purchases where id = ?", new Object[]{id}, String.class);
-        Location location = jt.queryForObject("select country, city from Purchaser where username = ?", new Object[]{username}, new LocationRowMapper());
+        Location location = jt.queryForObject("select pr.country, pr.city from Purchaser pr, Purchases ps where pr.username = ps.purchaser_username and ps.id = ?", new Object[] {id}, new LocationRowMapper());
         return location;
     }
 
@@ -90,15 +89,11 @@ public class APIController {
     }
 
     @GetMapping("/getParts")
-    public List<String> getParts() {
+    public List<Part> getParts() {
         JdbcTemplate jt = new JdbcTemplate(ds);
         String sql = "select pt.name from PartType pt where not exists ( (select cb.size from ChairBlueprint cb) except (select brp.blueprint_size from ChairBlueprintRequiresPartType brp where brp.part_id = pt.id) )";
-        List<Map<String, Object>> parts = jt.queryForList(sql);
-        List<String> partNames = new ArrayList<>();
-        for(Map part : parts) {
-            partNames.add((String) part.get("name"));
-        }
-        return partNames;
+        List<Part> part_names = jt.query(sql, new PartRowMapper());
+        return part_names;
     }
 
     @RequestMapping("/celebrationStation")

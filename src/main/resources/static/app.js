@@ -39,20 +39,25 @@ function setUpFindAll() {
             .then((res) => {
                 $("#find_all_fail_alert").hide();
                 console.log("findAll successful!");
-                let html = "<ul>";
-                for(let item in res.data) {
-                    let line = "id: " + res.data[item].id + ", quantity: " + res.data[item].quantity + ", blueprint size: " + res.data[item].blueprint_size + ", purchaser: " + res.data[item].purchaser_username;
-                    //console.log(line);
-                    html += "<li>" + line + "</li>";
+                let html;
+                if(res.data.length){
+                    html = "<ul>";
+                    for(let item in res.data) {
+                        let line = `id: ${res.data[item].id}, quantity: ${res.data[item].quantity}, blueprint size: ${res.data[item].blueprint_size}, purchaser: ${res.data[item].purchaser_username}`;
+                        html += `<li> ${line} </li>`;
+                    }
+                    html += "</ul>";
+                    console.log(`this is the html: ${html}`);
+                } else {
+                    html = "There are no results for this query!";
                 }
-                html += "</ul>";
                 $("#find_all_success_alert").html(html);
                 $("#find_all_success_alert").fadeIn();
             }).catch((err) => {
-                $("#find_all_fail_alert").fadeIn();
-                $("#find_all_success_alert").hide();
-                console.log("findAll failed!");
-                console.log(err);
+            $("#find_all_fail_alert").fadeIn();
+            $("#find_all_success_alert").hide();
+            console.log("findAll failed!");
+            console.log(err);
         })
     });
 }
@@ -74,15 +79,15 @@ function setUpSelectOrder() {
             $("select_order_fail_alert").hide();
             console.log("selection successful!");
             let html;
-            if(res.data.length != 0) {
+            if(res.data.length) {
                 html = "<ul>";
                 for(let item in res.data) {
-                    let line = "id: " + res.data[item].id + ", quantity: " + res.data[item].quantity + ", blueprint size: " + res.data[item].blueprint_size + ", purchaser: " + res.data[item].purchaser_username;
-                    html += "<li>" + line + "</li>";
+                    let line = `id: ${res.data[item].id}, quantity: ${res.data[item].quantity}, blueprint size: ${res.data[item].blueprint_size}, purchaser: ${res.data[item].purchaser_username}`;
+                    html += `<li> ${line} </li>`;
                 }
                 html += "</ul>";
             } else {
-                html = "<em>" + "No orders qualify for this query!" + "</em>";
+                html = "There are no results for this query!";
             }
             $("#select_order_success_alert").html(html);
             $("#select_order_success_alert").fadeIn();
@@ -108,7 +113,7 @@ function setUpDeleteOrder(){
             $("#delete_order_fail_alert").hide();
             console.log("deletion successful!");
             //console.log(res + " rows deleted.");
-            let html = "<em>" + "Order with id: " + order_id + " is deleted." + "</em>";
+            let html = `<em> Order with id: ${order_id} is deleted. </em>`;
             $("#delete_order_success_alert").html(html);
             $("#delete_order_success_alert").fadeIn();
         }).catch((err) => {
@@ -133,10 +138,11 @@ function setUpGetOrderLocation() {
             $("#get_location_fail_alert").hide();
             console.log("received the location!");
             let html;
-            if(res.data.length != 0) {
-                html = "<em>" + "Order with id " + id + " is from " + res.data.country + ", " + res.data.city + "</em>";
+            //this endpoint returns a Location, not List<Location>, so need to check res.data instead of res.data.length!
+            if(res.data) {
+                html = `Order with id ${id} is from ${res.data.country}, ${res.data.city}`;
             } else {
-                html = "<em>" + "No results for this query!" + "</em>";
+                html = "There are no results for this query!";
             }
             $("#get_location_success_alert").html(html);
             $("#get_location_success_alert").fadeIn();
@@ -160,15 +166,15 @@ function setUpGetNumOrders() {
                 $("#get_num_orders_fail_alert").hide();
                 console.log("getNumOrders successful!");
                 let html;
-                if(res.data.length != 0) {
+                if(res.data.length) {
                     html = "<ul>";
                     for(let item in res.data) {
-                        let line = "blueprint: " + res.data[item].blueprint_size + ", count: " + res.data[item].bp_count;
-                        html += "<li>" + line + "</li>";
+                        let line = `blueprint: ${res.data[item].blueprint_size}, count: ${res.data[item].bp_count}`;
+                        html += `<li> ${line} </li>`;
                     }
                     html += "</ul>";
                 } else {
-                    html = "<em>" + "No orders qualify for this query!" + "</em>";
+                    html = "There are no results for this query!";
                 }
                 $("#get_num_orders_success_alert").html(html);
                 $("#get_num_orders_success_alert").fadeIn();
@@ -192,15 +198,15 @@ function setUpGetPartNames() {
                 $("#get_part_names_fail_alert").hide();
                 console.log("getParts successful!");
                 let html;
-                if(res.data.length != 0) {
+                if(res.data.length) {
                     html = "<ul>";
                     for(let item in res.data) {
-                        let line = "part name: " + res.data[item];
-                        html += "<li>" + line + "</li>";
+                        let line = `part name: ${res.data[item].part_name}`;
+                        html += `<li> ${line} </li>`;
                     }
                     html += "</ul>";
                 } else {
-                    html = "<em>" + "No orders qualify for this query!" + "</em>";
+                    html = html = "There are no results for this query!";
                 }
                 $("#get_part_names_success_alert").html(html);
                 $("#get_part_names_success_alert").fadeIn();
