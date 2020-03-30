@@ -51,8 +51,17 @@ function setUpUpdateOrder() {
             blueprint: blueprint,
             purchaser: purchaser
         }).then((res) => {
-            $("#update_order_fail_alert").hide();
-            $("#update_order_success_alert").fadeIn();
+            if(res.data) {
+                $("#update_order_fail_alert").hide();
+                html = `Order with id ${id} has been updated.`;
+                $("#update_order_success_alert > span").html(html);
+                $("#update_order_success_alert").fadeIn();
+            } else {
+                $("#update_order_success_alert").hide();
+                html = `There is no order with id ${id}!`;
+                $("#update_order_fail_alert > span").html(html);
+                $("#update_order_fail_alert").fadeIn();
+            }
             console.log(res);
         }).catch((err) => {
             $("#update_order_fail_alert > span").html(errOrMsg(err));
@@ -184,15 +193,18 @@ function setUpDeleteOrder(){
         axios.post("/deleteOrder", {
             order_id: parseInt(order_id)
         }).then((res) => {
-            $("#delete_order_fail_alert").hide();
             let html;
             if(res.data) {
-                html = `Order with id ${order_id} is deleted.`;
+                $("#delete_order_fail_alert").hide();
+                html = `Order with id ${order_id} has been deleted.`;
+                $("#delete_order_success_alert > span").html(html);
+                $("#delete_order_success_alert").fadeIn();
             } else {
+                $("#delete_order_success_alert").hide();
                 html = `There is no order with id ${order_id}!`;
+                $("#delete_order_fail_alert > span").html(html);
+                $("#delete_order_fail_alert").fadeIn();
             }
-            $("#delete_order_success_alert > span").html(html);
-            $("#delete_order_success_alert").fadeIn();
         }).catch((err) => {
             $("#delete_order_fail_alert > span").html(errOrMsg(err));
             $("#delete_order_fail_alert").fadeIn();
