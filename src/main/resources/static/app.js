@@ -16,12 +16,14 @@ function setUpCreateOrder() {
             quantity: parseInt(quantity),
             blueprint: blueprint,
             purchaser: purchaser
-        }).then(() => {
+        }).then((res) => {
             $("#create_order_fail_alert").hide();
             $("#create_order_success_alert").fadeIn();
-        }).catch(() => {
+            console.log(res);
+        }).catch((err) => {
             $("#create_order_fail_alert").fadeIn();
             $("#create_order_success_alert").hide();
+            console.log(err);
         })
     });
 }
@@ -35,11 +37,28 @@ function setUpFindAll() {
 
         axios.get("/findAll")
             .then((res) => {
+                $("#find_all_fail_alert").hide();
                 console.log("findAll successful!");
-                console.log(res);
+                let html;
+                console.log(res.data);
+                if(res.data.length){
+                    html = "<ul>";
+                    for(let item of res.data) {
+                        let line = `id: ${item.id}, quantity: ${item.quantity}, blueprint size: ${item.blueprint_size}, purchaser: ${item.purchaser_username}`;
+                        html += `<li> ${line} </li>`;
+                    }
+                    html += "</ul>";
+                    console.log(`this is the html: ${html}`);
+                } else {
+                    html = "There are no results for this query!";
+                }
+                $("#find_all_success_alert").html(html);
+                $("#find_all_success_alert").fadeIn();
             }).catch((err) => {
-                console.log("findAll failed!");
-                console.log(err);
+            $("#find_all_fail_alert").fadeIn();
+            $("#find_all_success_alert").hide();
+            console.log("findAll failed!");
+            console.log(err);
         })
     });
 }
@@ -58,9 +77,24 @@ function setUpSelectOrder() {
                 blueprint: blueprint
             }
         }).then((res) => {
+            $("select_order_fail_alert").hide();
             console.log("selection successful!");
-            console.log(res);
+            let html;
+            if(res.data.length) {
+                html = "<ul>";
+                for(let item of res.data) {
+                    let line = `id: ${item.id}, quantity: ${item.quantity}, blueprint size: ${item.blueprint_size}, purchaser: ${item.purchaser_username}`;
+                    html += `<li> ${line} </li>`;
+                }
+                html += "</ul>";
+            } else {
+                html = "There are no results for this query!";
+            }
+            $("#select_order_success_alert").html(html);
+            $("#select_order_success_alert").fadeIn();
         }).catch((err) => {
+            $("select_order_fail_alert").fadeIn();
+            $("#select_order_success_alert").hide();
             console.log("selection failed!");
             console.log(err);
         })
@@ -77,8 +111,12 @@ function setUpDeleteOrder(){
         axios.post("/deleteOrder", {
             order_id: parseInt(order_id)
         }).then((res) => {
+            $("#delete_order_fail_alert").hide();
             console.log("deletion successful!");
-            console.log(res + " rows deleted.");
+            //console.log(res + " rows deleted.");
+            let html = `Order with id: ${order_id} is deleted.`;
+            $("#delete_order_success_alert").html(html);
+            $("#delete_order_success_alert").fadeIn();
         }).catch((err) => {
             console.log("deletion failed!");
             console.log(err);
@@ -87,7 +125,6 @@ function setUpDeleteOrder(){
 }
 
 setUpDeleteOrder();
-
 
 function setUpGetOrderLocation() {
     $("#get_location_submit").on("click", function (e) {
@@ -99,11 +136,22 @@ function setUpGetOrderLocation() {
                 id: id
             }
         }).then((res) => {
+            $("#get_location_fail_alert").hide();
             console.log("received the location!");
-            console.log(res);
+            let html;
+            //this endpoint returns a Location, not List<Location>, so need to check res.data instead of res.data.length!
+            if(res.data) {
+                html = `Order with id ${id} is from ${res.data.country}, ${res.data.city}`;
+            } else {
+                html = "There are no results for this query!";
+            }
+            $("#get_location_success_alert").html(html);
+            $("#get_location_success_alert").fadeIn();
         }).catch((err) => {
             console.log("could not receive the location!");
             console.log(err);
+            $("#get_location_fail_alert").fadeIn();
+            $("#get_location_success_alert").hide();
         })
     });
 }
@@ -116,13 +164,61 @@ function setUpGetNumOrders() {
 
         axios.get("/getNumOrders")
             .then((res) => {
+                $("#get_num_orders_fail_alert").hide();
                 console.log("getNumOrders successful!");
-                console.log(res);
+                let html;
+                if(res.data.length) {
+                    html = "<ul>";
+                    for(let item of res.data) {
+                        let line = `blueprint: ${item.blueprint_size}, count: ${item.bp_count}`;
+                        html += `<li> ${line} </li>`;
+                    }
+                    html += "</ul>";
+                } else {
+                    html = "There are no results for this query!";
+                }
+                $("#get_num_orders_success_alert").html(html);
+                $("#get_num_orders_success_alert").fadeIn();
             }).catch((err) => {
-            console.log("getNumOrders failed!");
-            console.log(err);
+                $("#get_num_orders_fail_alert").fadeIn();
+                $("#get_num_orders_success_alert").hide();
+                console.log("getNumOrders failed!");
+                console.log(err);
         })
     });
 }
 
 setUpGetNumOrders();
+
+function setUpGetPartNames() {
+    $("#get_part_names_submit").on("click", function (e) {
+        e.preventDefault();
+
+        axios.get("/getParts")
+            .then((res) => {
+                $("#get_part_names_fail_alert").hide();
+                console.log("getParts successful!");
+                let html;
+                if(res.data.length) {
+                    console.log(res.data);
+                    html = "<ul>";
+                    for(let item of res.data) {
+                        let line = `part name: ${item}`;
+                        html += `<li> ${line} </li>`;
+                    }
+                    html += "</ul>";
+                } else {
+                    html = html = "There are no results for this query!";
+                }
+                $("#get_part_names_success_alert").html(html);
+                $("#get_part_names_success_alert").fadeIn();
+            }).catch((err) => {
+                $("#get_part_names_fail_alert").fadeIn();
+                $("#get_part_names_success_alert").hide();
+                console.log("getParts failed!");
+                console.log(err);
+        })
+    });
+}
+
+setUpGetPartNames();

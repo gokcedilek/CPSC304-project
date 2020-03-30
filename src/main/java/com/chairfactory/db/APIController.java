@@ -1,5 +1,6 @@
 package com.chairfactory.db;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.sql.DataSource;
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class APIController {
@@ -32,22 +35,29 @@ public class APIController {
         }
 
         JdbcTemplate jt = new JdbcTemplate(ds);
-        jt.update("insert into purchases (quantity, blueprint_size, purchaser_username) values (?, ?, ?)",
-                data.quantity, data.blueprint, data.purchaser);
+        try {
+            jt.update("insert into Purchases (quantity, blueprint_size, purchaser_username) values (?, ?, ?)",
+                    data.quantity, data.blueprint, data.purchaser);
+        } catch(DataAccessException de) {
+            System.out.print("hello");
+        }
+        catch (Exception e) {
+            System.out.print("hi");
+        }
     }
 
     //example endpoint
     @GetMapping("/findAll")
     public List<Order> findAll(){
         JdbcTemplate jt = new JdbcTemplate(ds);
-        List<Order> orders = jt.query("select * from purchases", new OrderRowMapper());
+        List<Order> orders = jt.query("select * from Purchases", new OrderRowMapper());
         return orders;
     }
 
     @GetMapping("/selectOrders")
     public List<Order> selectOrders(@RequestParam int quantity, @RequestParam String blueprint) {
         JdbcTemplate jt = new JdbcTemplate(ds);
-        List<Order> orders = jt.query("select * from purchases where quantity >= ? and blueprint_size = ?",
+        List<Order> orders = jt.query("select * from Purchases where quantity >= ? and blueprint_size = ?",
                 new Object[] {quantity, blueprint},
                 new OrderRowMapper());
         return orders;
@@ -60,23 +70,36 @@ public class APIController {
     @PostMapping("/deleteOrder")
     public int deleteOrder(@RequestBody DeleteOrderData data) {
         JdbcTemplate jt = new JdbcTemplate(ds);
-        int rows = jt.update("delete from purchases where id = ?", new Object[] {data.order_id});
+        int rows = jt.update("delete from Purchases where id = ?", new Object[] {data.order_id});
         return rows;
     }
 
     @GetMapping("/getOrderLocation")
     public Location getOrderLocation(@RequestParam int id) {
         JdbcTemplate jt = new JdbcTemplate(ds);
-        String username = jt.queryForObject("select purchaser_username from purchases where id = ?", new Object[]{id}, String.class);
-        Location location = jt.queryForObject("select country, city from purchaser where username = ?", new Object[]{username}, new LocationRowMapper());
+        Location location = jt.queryForObject("select pr.country, pr.city from Purchaser pr, Purchases ps where pr.username = ps.purchaser_username and ps.id = ?", new Object[] {id}, new LocationRowMapper());
         return location;
     }
 
     @GetMapping("/getNumOrders")
     public List<BPCount> getNumOrders() {
         JdbcTemplate jt = new JdbcTemplate(ds);
-        List<BPCount> bpcounts = jt.query("select blueprint_size, count(*) from purchases group by blueprint_size", new BPCountRowMapper());
+        List<BPCount> bpcounts = jt.query("select blueprint_size, count(*) from Purchases group by blueprint_size", new BPCountRowMapper());
         return bpcounts;
+    }
+
+//    @GetMapping("/getParts")
+//    public List<Part> getParts() {
+//        JdbcTemplate jt = new JdbcTemplate(ds);
+//        String sql = "select pt.name from PartType pt where not exists ( (select cb.size from ChairBlueprint cb) except (select brp.blueprint_size from ChairBlueprintRequiresPartType brp where brp.part_id = pt.id) )";
+//        List<Part> part_names = jt.query(sql, new PartRowMapper());
+//        return part_names;
+//    }
+    @GetMapping("/getParts")
+    public List<String> getParts() {
+        JdbcTemplate jt = new JdbcTemplate(ds);
+        String sql = "select pt.name from PartType pt where not exists ( (select cb.size from ChairBlueprint cb) except (select brp.blueprint_size from ChairBlueprintRequiresPartType brp where brp.part_id = pt.id) )";
+        return jt.queryForList(sql, String.class);
     }
 
     @RequestMapping("/celebrationStation")
