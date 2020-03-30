@@ -4,6 +4,11 @@ $('.alert').on('click','.close',function(){
     $(this).closest('.alert').fadeOut();
 });
 
+function errOrMsg(err) {
+    return err && err.response && err.response.data && err.response.data.message
+            ? err.response.data.message : "Could not get a response from the backend :(";
+}
+
 // There"s no need for this to be in its own method, only for organization sake
 function setUpCreateOrder() {
     $("#create_order_submit").on("click", function (e) {
@@ -21,6 +26,7 @@ function setUpCreateOrder() {
             $("#create_order_success_alert").fadeIn();
             console.log(res);
         }).catch((err) => {
+            $("#create_order_fail_alert > span").html(errOrMsg(err));
             $("#create_order_fail_alert").fadeIn();
             $("#create_order_success_alert").hide();
             console.log(err);
@@ -49,6 +55,7 @@ function setUpUpdateOrder() {
             $("#update_order_success_alert").fadeIn();
             console.log(res);
         }).catch((err) => {
+            $("#update_order_fail_alert > span").html(errOrMsg(err));
             $("#update_order_fail_alert").fadeIn();
             $("#update_order_success_alert").hide();
             console.log(err);
@@ -69,10 +76,11 @@ function setUpGetPurchaserNames() {
                 html += "<li>" + name + "</li>";
             }
             html += "</ul>";
-            $("#get_purchaser_names_success_alert").html(html);
+            $("#get_purchaser_names_success_alert > span").html(html);
             $("#get_purchaser_names_success_alert").fadeIn();
             console.log(res);
         }).catch((err) => {
+            $("#get_purchaser_names_fail_alert > span").html(errOrMsg(err));
             $("#get_purchaser_names_fail_alert").fadeIn();
             $("#get_purchaser_names_success_alert").hide();
             console.log(err);
@@ -89,10 +97,11 @@ function setUpGetMinChairPrice() {
         axios.get("/getMinChairPrice").then((res) => {
             $("#get_min_chair_price_fail_alert").hide();
             let html = "Minimum Chair Price (MSRP): $" + res.data;
-            $("#get_min_chair_price_success_alert").html(html);
+            $("#get_min_chair_price_success_alert > span").html(html);
             $("#get_min_chair_price_success_alert").fadeIn();
             console.log(res);
         }).catch((err) => {
+            $("#get_min_chair_price_fail_alert > span").html(errOrMsg(err));
             $("#get_min_chair_price_fail_alert").fadeIn();
             $("#get_min_chair_price_success_alert").hide();
             console.log(err);
