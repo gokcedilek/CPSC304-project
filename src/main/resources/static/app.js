@@ -126,10 +126,11 @@ function setUpFindAll() {
                 $("#find_all_success_alert").html(html);
                 $("#find_all_success_alert").fadeIn();
             }).catch((err) => {
-            $("#find_all_fail_alert").fadeIn();
-            $("#find_all_success_alert").hide();
-            console.log("findAll failed!");
-            console.log(err);
+                $("#find_all_fail_alert").html(err);
+                $("#find_all_fail_alert").fadeIn();
+                $("#find_all_success_alert").hide();
+                console.log("findAll failed!");
+                console.log(err);
         })
     });
 }
@@ -216,7 +217,7 @@ function setUpGetOrderLocation() {
             } else {
                 html = "There are no results for this query!";
             }
-            $("#get_location_success_alert").html(html);
+            $("#get_location_success_alert").text(html);
             $("#get_location_success_alert").fadeIn();
         }).catch((err) => {
             console.log("could not receive the location!");
