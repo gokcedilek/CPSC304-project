@@ -118,9 +118,7 @@ function setUpFindAll() {
         axios.get("/findAll")
             .then((res) => {
                 $("#find_all_fail_alert").hide();
-                console.log("findAll successful!");
                 let html;
-                console.log(res.data);
                 if(res.data.length){
                     html = "<ul>";
                     for(let item of res.data) {
@@ -128,17 +126,15 @@ function setUpFindAll() {
                         html += `<li> ${line} </li>`;
                     }
                     html += "</ul>";
-                    console.log(`this is the html: ${html}`);
                 } else {
                     html = "There are no results for this query!";
                 }
-                $("#find_all_success_alert").html(html);
+                $("#find_all_success_alert > span").html(html);
                 $("#find_all_success_alert").fadeIn();
             }).catch((err) => {
+            $("#find_all_fail_alert > span").html(errOrMsg(err));
             $("#find_all_fail_alert").fadeIn();
             $("#find_all_success_alert").hide();
-            console.log("findAll failed!");
-            console.log(err);
         })
     });
 }
@@ -158,7 +154,6 @@ function setUpSelectOrder() {
             }
         }).then((res) => {
             $("select_order_fail_alert").hide();
-            console.log("selection successful!");
             let html;
             if(res.data.length) {
                 html = "<ul>";
@@ -170,13 +165,11 @@ function setUpSelectOrder() {
             } else {
                 html = "There are no results for this query!";
             }
-            $("#select_order_success_alert").html(html);
+            $("#select_order_success_alert > span").html(html);
             $("#select_order_success_alert").fadeIn();
         }).catch((err) => {
-            $("select_order_fail_alert").fadeIn();
+            $("select_order_fail_alert > span").html(errOrMsg(err));
             $("#select_order_success_alert").hide();
-            console.log("selection failed!");
-            console.log(err);
         })
     });
 }
@@ -192,14 +185,18 @@ function setUpDeleteOrder(){
             order_id: parseInt(order_id)
         }).then((res) => {
             $("#delete_order_fail_alert").hide();
-            console.log("deletion successful!");
-            //console.log(res + " rows deleted.");
-            let html = `Order with id: ${order_id} is deleted.`;
-            $("#delete_order_success_alert").html(html);
+            let html;
+            if(res.data) {
+                html = `Order with id ${order_id} is deleted.`;
+            } else {
+                html = `There is no order with id ${order_id}!`;
+            }
+            $("#delete_order_success_alert > span").html(html);
             $("#delete_order_success_alert").fadeIn();
         }).catch((err) => {
-            console.log("deletion failed!");
-            console.log(err);
+            $("#delete_order_fail_alert > span").html(errOrMsg(err));
+            $("#delete_order_fail_alert").fadeIn();
+            $("#delete_order_success_alert").hide();
         })
     });
 }
@@ -217,7 +214,6 @@ function setUpGetOrderLocation() {
             }
         }).then((res) => {
             $("#get_location_fail_alert").hide();
-            console.log("received the location!");
             let html;
             //this endpoint returns a Location, not List<Location>, so need to check res.data instead of res.data.length!
             if(res.data) {
@@ -225,11 +221,10 @@ function setUpGetOrderLocation() {
             } else {
                 html = "There are no results for this query!";
             }
-            $("#get_location_success_alert").html(html);
+            $("#get_location_success_alert > span").html(html);
             $("#get_location_success_alert").fadeIn();
         }).catch((err) => {
-            console.log("could not receive the location!");
-            console.log(err);
+            $("#get_location_fail_alert > span").html(errOrMsg(err));
             $("#get_location_fail_alert").fadeIn();
             $("#get_location_success_alert").hide();
         })
@@ -245,7 +240,6 @@ function setUpGetNumOrders() {
         axios.get("/getNumOrders")
             .then((res) => {
                 $("#get_num_orders_fail_alert").hide();
-                console.log("getNumOrders successful!");
                 let html;
                 if(res.data.length) {
                     html = "<ul>";
@@ -257,13 +251,12 @@ function setUpGetNumOrders() {
                 } else {
                     html = "There are no results for this query!";
                 }
-                $("#get_num_orders_success_alert").html(html);
+                $("#get_num_orders_success_alert > span").html(html);
                 $("#get_num_orders_success_alert").fadeIn();
             }).catch((err) => {
-                $("#get_num_orders_fail_alert").fadeIn();
+                $("#get_num_orders_fail_alert > span").html(errOrMsg(err));
+                $("#get_num_orders_fail_alert > span").fadeIn();
                 $("#get_num_orders_success_alert").hide();
-                console.log("getNumOrders failed!");
-                console.log(err);
         })
     });
 }
@@ -277,7 +270,6 @@ function setUpGetPartNames() {
         axios.get("/getParts")
             .then((res) => {
                 $("#get_part_names_fail_alert").hide();
-                console.log("getParts successful!");
                 let html;
                 if(res.data.length) {
                     console.log(res.data);
@@ -290,13 +282,12 @@ function setUpGetPartNames() {
                 } else {
                     html = html = "There are no results for this query!";
                 }
-                $("#get_part_names_success_alert").html(html);
+                $("#get_part_names_success_alert > span").html(html);
                 $("#get_part_names_success_alert").fadeIn();
             }).catch((err) => {
+                $("#get_part_names_fail_alert > span").html(errOrMsg(err));
                 $("#get_part_names_fail_alert").fadeIn();
                 $("#get_part_names_success_alert").hide();
-                console.log("getParts failed!");
-                console.log(err);
         })
     });
 }
