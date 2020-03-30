@@ -43,6 +43,73 @@
                 </div>
             </form>
             <form>
+                <div class="form-group">
+                    <label for="update_order_id">ID</label>
+                    <input type="number" class="form-control" id="update_order_id" placeholder="1">
+                </div>
+                <div class="form-group">
+                    <label for="update_order_quantity">Quantity</label>
+                    <input type="number" class="form-control" id="update_order_quantity" placeholder="5">
+                </div>
+                <div class="form-group">
+                    <label for="create_order_blueprint_size">Blueprint Size</label>
+                    <input type="text" class="form-control" id="update_order_blueprint_size" placeholder="XL">
+                </div>
+                <div class="form-group">
+                    <label for="create_order_purchaser_username">Purchaser Username</label>
+                    <input type="text" class="form-control" id="update_order_purchaser_username" placeholder="bob">
+                </div>
+                <button type="submit" class="btn btn-primary" id="update_order_submit">Update Order!</button>
+                <br/>
+                <br/>
+                <div class="alert alert-success alert-dismissible" style="display:none" role="alert" id="update_order_success_alert">
+                    It worked!!!! The order was updated.
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="alert alert-danger alert-dismissible" style="display:none" role="alert" id="update_order_fail_alert">
+                    Oh no. Disaster. The order wasn't updated :(
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </form>
+            <form>
+                <button type="submit" class="btn btn-primary" id="get_purchaser_names_submit">Get Purchaser Names!</button>
+                <br/>
+                <br/>
+                <div class="alert alert-success alert-dismissible" style="display:none" role="alert" id="get_purchaser_names_success_alert">
+                    ERROR
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="alert alert-danger alert-dismissible" style="display:none" role="alert" id="get_purchaser_names_fail_alert">
+                    Oh no. Disaster. Couldn't get purchaser names :(
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </form>
+            <form>
+                <button type="submit" class="btn btn-primary" id="get_min_chair_price_submit">Get Minimum Chair Price!</button>
+                <br/>
+                <br/>
+                <div class="alert alert-success alert-dismissible" style="display:none" role="alert" id="get_min_chair_price_success_alert">
+                    ERROR
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="alert alert-danger alert-dismissible" style="display:none" role="alert" id="get_min_chair_price_fail_alert">
+                    Oh no. Disaster. Couldn't get purchaser names :(
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </form>
+            <form>
                 <button type="submit" class="btn btn-secondary" id="find_all_submit">Get Orders!</button>
                 <br/>
                 <br/>

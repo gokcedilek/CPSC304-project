@@ -35,15 +35,38 @@ public class APIController {
         }
 
         JdbcTemplate jt = new JdbcTemplate(ds);
-        try {
-            jt.update("insert into Purchases (quantity, blueprint_size, purchaser_username) values (?, ?, ?)",
-                    data.quantity, data.blueprint, data.purchaser);
-        } catch(DataAccessException de) {
-            System.out.print("hello");
+        jt.update("insert into Purchases (quantity, blueprint_size, purchaser_username) values (?, ?, ?)",
+                data.quantity, data.blueprint, data.purchaser);
+    }
+
+    static class UpdateOrderData {
+        public int id;
+        public int quantity;
+        public String blueprint;
+        public String purchaser;
+    }
+
+    @PostMapping("/updateOrder")
+    public void updateOrder(@RequestBody UpdateOrderData data) {
+        if (data.quantity == 0 || data.blueprint.length() == 0 || data.purchaser.length() == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oops - looks like one of your params is invalid!");
         }
-        catch (Exception e) {
-            System.out.print("hi");
-        }
+
+        JdbcTemplate jt = new JdbcTemplate(ds);
+        jt.update("update Purchases set quantity = ?, blueprint_size = ?, purchaser_username = ? where id = ?",
+                data.quantity, data.blueprint, data.purchaser, data.id);
+    }
+
+    @GetMapping("/getPurchaserNames")
+    public List<String> purchaserNames() {
+        JdbcTemplate jt = new JdbcTemplate(ds);
+        return jt.queryForList("select full_name from Purchaser", String.class);
+    }
+
+    @GetMapping("/getMinChairPrice")
+    public Integer getMinChairPrice() {
+        JdbcTemplate jt = new JdbcTemplate(ds);
+        return jt.queryForObject("select MIN(msrp) from ChairBlueprint", Integer.class);
     }
 
     //example endpoint

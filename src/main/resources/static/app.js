@@ -31,6 +31,77 @@ function setUpCreateOrder() {
 // Let's set up the create order portion!
 setUpCreateOrder();
 
+function setUpUpdateOrder() {
+    $("#update_order_submit").on("click", function (e) {
+        e.preventDefault(); // Prevent the submit button from re-loading the page
+
+        const id = $("#update_order_id").val();
+        const quantity = $("#update_order_quantity").val();
+        const blueprint = $("#update_order_blueprint_size").val();
+        const purchaser = $("#update_order_purchaser_username").val();
+        axios.post("/updateOrder", {
+            id: parseInt(id),
+            quantity: parseInt(quantity),
+            blueprint: blueprint,
+            purchaser: purchaser
+        }).then((res) => {
+            $("#update_order_fail_alert").hide();
+            $("#update_order_success_alert").fadeIn();
+            console.log(res);
+        }).catch((err) => {
+            $("#update_order_fail_alert").fadeIn();
+            $("#update_order_success_alert").hide();
+            console.log(err);
+        })
+    });
+}
+
+setUpUpdateOrder();
+
+function setUpGetPurchaserNames() {
+    $("#get_purchaser_names_submit").on("click", function (e) {
+        e.preventDefault(); // Prevent the submit button from re-loading the page
+
+        axios.get("/getPurchaserNames").then((res) => {
+            $("#get_purchaser_names_fail_alert").hide();
+            let html = "<ul>";
+            for(let name of res.data) {
+                html += "<li>" + name + "</li>";
+            }
+            html += "</ul>";
+            $("#get_purchaser_names_success_alert").html(html);
+            $("#get_purchaser_names_success_alert").fadeIn();
+            console.log(res);
+        }).catch((err) => {
+            $("#get_purchaser_names_fail_alert").fadeIn();
+            $("#get_purchaser_names_success_alert").hide();
+            console.log(err);
+        })
+    });
+}
+
+setUpGetPurchaserNames();
+
+function setUpGetMinChairPrice() {
+    $("#get_min_chair_price_submit").on("click", function (e) {
+        e.preventDefault(); // Prevent the submit button from re-loading the page
+
+        axios.get("/getMinChairPrice").then((res) => {
+            $("#get_min_chair_price_fail_alert").hide();
+            let html = "Minimum Chair Price (MSRP): $" + res.data;
+            $("#get_min_chair_price_success_alert").html(html);
+            $("#get_min_chair_price_success_alert").fadeIn();
+            console.log(res);
+        }).catch((err) => {
+            $("#get_min_chair_price_fail_alert").fadeIn();
+            $("#get_min_chair_price_success_alert").hide();
+            console.log(err);
+        })
+    });
+}
+
+setUpGetMinChairPrice();
+
 function setUpFindAll() {
     $("#find_all_submit").on("click", function (e) {
         e.preventDefault();
