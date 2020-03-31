@@ -1,7 +1,5 @@
 ## Welcome to our exciting project!
 
-💃💃💃🎉🎉🎉🎉🎉💃💃💃🎉🎉🎉🎉🎉
-
 ### Instructions on how to use the boilerplate:
 
 The database (postgres) can be accessed here:
