@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="styles.css">
+    <!-- Bootstrap CSS -->
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
+
+    <title>Chair Factory</title>
+</head>
+<body>
+<br>
+<div id="main_page">
+    <h id="header">
+        Chair Factory
+    </h>
+</div>
+<a class="homebtn" href="Home_Page.html">Home</a>
+<div class="dropdown">
+    <button class="dropbtn">Orders</button>
+    <div class="dropdown-content">
+        <a href="Create_Order.html">Create New</a>
+        <a href="Update.html">Update Existing</a>
+        <a href="Delete.html">Delete Existing</a>
+        <a href="Select.html">Select Existing</a>
+    </div>
+</div>
+<div class="dropdown">
+    <button class="dropbtn">Search</button>
+    <div class="dropdown-content">
+        <a href="Search.html">Order Location</a>
+        <a href="Search.html">Part Name</a>
+        <a href="Search.html">Total Number of Orders</a>
+    </div>
+</div>
+<div class="dropdown">
+    <button class="dropbtn">Purchaser</button>
+    <div class="dropdown-content">
+        <a href="Purchaser.html">Find By Name</a>
+        <a href="Purchaser.html">Order History</a>
+        <a href="Purchaser.html">Cheapest Purchased Chair</a>
+    </div>
+</div>
+
+<br>
+<div class="container">
+    <b><p class="form-group">Select Orders</p></b>
+    <form>
+        <div class="form-group">
+            <label for="select_order_quantity">Quantity</label>
+            <input type="number" class="form-control" id="select_order_quantity" aria-describedby="emailHelp" placeholder="5">
+        </div>
+        <div class="form-group">
+            <label for="select_order_blueprint_size">Blueprint Size</label>
+            <input type="text" class="form-control" id="select_order_blueprint_size" placeholder="XL">
+        </div>
+        <button type="submit" class="btn-primary" id="select_order_submit">Select Orders</button>
+        <br/>
+        <br/>
+        <div class="alert alert-success alert-dismissible" style="display:none" role="alert" id="select_order_success_alert">
+            Shouldn't show up?:)
+            <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-dismissible" style="display:none" role="alert" id="select_order_fail_alert">
+            This also shouldn't show up?
+            <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </form>
+    <br/>
+</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="app.js"></script>
+</html>
