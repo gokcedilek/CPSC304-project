@@ -47,14 +47,14 @@ public class APIController {
     }
 
     @PostMapping("/updateOrder")
-    public void updateOrder(@RequestBody UpdateOrderData data) {
+    public int updateOrder(@RequestBody UpdateOrderData data) {
         if (data.quantity == 0 || data.blueprint.length() == 0 || data.purchaser.length() == 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oops - looks like one of your params is invalid!");
         }
 
         JdbcTemplate jt = new JdbcTemplate(ds);
-        jt.update("update Purchases set quantity = ?, blueprint_size = ?, purchaser_username = ? where id = ?",
-                data.quantity, data.blueprint, data.purchaser, data.id);
+        return jt.update("update Purchases set quantity = ?, blueprint_size = ?, purchaser_username = ? where id = ?",
+                        data.quantity, data.blueprint, data.purchaser, data.id);
     }
 
     @GetMapping("/getPurchaserNames")
