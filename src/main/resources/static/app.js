@@ -15,8 +15,11 @@ function setUpCreateOrder() {
         e.preventDefault(); // Prevent the submit button from re-loading the page
 
         const quantity = $("#create_order_quantity").val();
+        console.log(`quantity is: ${quantity}`);
         const blueprint = $("#create_order_blueprint_size").val();
+        console.log(`blueprint is: ${blueprint}`);
         const purchaser = $("#create_order_purchaser_username").val();
+        console.log(`purchaser is: ${purchaser}`);
         axios.post("/createOrder", {
             quantity: parseInt(quantity),
             blueprint: blueprint,
@@ -54,16 +57,19 @@ function setUpUpdateOrder() {
             if(res.data) {
                 $("#update_order_fail_alert").hide();
                 html = `Order with id ${id} has been updated.`;
+                console.log(`html is: ${html}`);
                 $("#update_order_success_alert > span").html(html);
                 $("#update_order_success_alert").fadeIn();
             } else {
                 $("#update_order_success_alert").hide();
                 html = `There is no order with id ${id}!`;
+                console.log(`html is: ${html}`);
                 $("#update_order_fail_alert > span").html(html);
                 $("#update_order_fail_alert").fadeIn();
             }
             console.log(res);
         }).catch((err) => {
+            console.log(`update error!`);
             $("#update_order_fail_alert > span").html(errOrMsg(err));
             $("#update_order_fail_alert").fadeIn();
             $("#update_order_success_alert").hide();
@@ -195,11 +201,13 @@ function setUpDeleteOrder(){
         }).then((res) => {
             let html;
             if(res.data) {
+                console.log(`delete success`);
                 $("#delete_order_fail_alert").hide();
                 html = `Order with id ${order_id} has been deleted.`;
                 $("#delete_order_success_alert > span").html(html);
                 $("#delete_order_success_alert").fadeIn();
             } else {
+                console.log(`delete fail`);
                 $("#delete_order_success_alert").hide();
                 html = `There is no order with id ${order_id}!`;
                 $("#delete_order_fail_alert > span").html(html);
