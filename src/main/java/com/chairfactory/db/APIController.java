@@ -1,6 +1,7 @@
 package com.chairfactory.db;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.sql.DataSource;
 import javax.inject.Inject;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -100,8 +102,11 @@ public class APIController {
     @GetMapping("/getOrderLocation")
     public Location getOrderLocation(@RequestParam int id) {
         JdbcTemplate jt = new JdbcTemplate(ds);
-        Location location = jt.queryForObject("select pr.country, pr.city from Purchaser pr, Purchases ps where pr.username = ps.purchaser_username and ps.id = ?", new Object[] {id}, new LocationRowMapper());
-        return location;
+        try {
+            return jt.queryForObject("select pr.country, pr.city from Purchaser pr, Purchases ps where pr.username = ps.purchaser_username and ps.id = ?", new Object[]{id}, new LocationRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Uh oh - there is no order with id " + id);
+        }
     }
 
     @GetMapping("/getNumOrders")

@@ -29,7 +29,7 @@
   border-radius: 12px;
 }
 
-.btn-primary {
+.btn-primary, .btn-danger {
   color:#d2a679;
   padding: 7px 12px;
   text-align: center;
