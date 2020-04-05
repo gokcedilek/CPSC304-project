@@ -158,6 +158,7 @@ insert into chairblueprint values ('M', '10', '9');
 insert into chairblueprint values ('L', '15', '14');
 
 insert into manufacturer values ('IKEA', 'Vancouver');
+
 insert into parttype (name, quantity_in_stock, manufacturer) values ('p1', '100', 'IKEA');
 insert into parttype (name, quantity_in_stock, manufacturer) values ('p2', '200', 'IKEA');
 insert into parttype (name, quantity_in_stock, manufacturer) values ('p3', '300', 'IKEA');
@@ -175,3 +176,29 @@ insert into chairblueprintrequiresparttype values ('L', 2, 10);
 insert into chairblueprintrequiresparttype values ('L', 3, 10);
 insert into chairblueprintrequiresparttype values ('L', 4, 10);
 insert into chairblueprintrequiresparttype values ('L', 5, 10);
+
+insert into station values (20001, 'Production Station');
+insert into station values (20002, 'Assembly Station');
+insert into station values (20003, 'Repairs Station');
+insert into station values (20004, 'Finishing Station');
+insert into station values (20005, 'Shipping Station');
+
+insert into equipment (description, station_number) values ('Wood Glue', 20002);
+
+insert into purchases (quantity, blueprint_size, purchaser_username) values (1, 'S', 'user1');
+insert into purchases (quantity, blueprint_size, purchaser_username) values (2, 'S', 'user2');
+insert into purchases (quantity, blueprint_size, purchaser_username) values (3, 'M', 'user3');
+insert into purchases (quantity, blueprint_size, purchaser_username) values (4, 'L', 'user4');
+insert into purchases (quantity, blueprint_size, purchaser_username) values (5, 'L', 'user5');
+
+insert into employee (username, employee_password, full_name, salary, station_number) values ('bobsmith', 'SuperSecret', 'Bob Smith', 100000, 20001);
+insert into employee (username, employee_password, full_name, salary, station_number) values ('robjones', 'topsecret', 'Rob Jones', 100000, 20001);
+insert into employee (username, employee_password, full_name, salary, station_number) values ('neilparsons', '012345', 'Neil Parsons', 100000, 20001);
+
+insert into chair (blueprint_size) values ('S');
+insert into chair (blueprint_size) values ('M');
+insert into chair (blueprint_size) values ('L');
+
+insert into chairinspection (date, chair_id, passed) values ('2019-09-10', 1, true);
+insert into chairinspection (date, chair_id, passed) values ('2019-06-23', 2, true);
+insert into chairinspection (date, chair_id, passed) values ('2019-09-01', 3, false);
