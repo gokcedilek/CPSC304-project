@@ -1,3 +1,5 @@
+// Slideshow code from https://www.w3schools.com/w3css/w3css_slideshow.asp
+
 var slideIndex = 1;
 showSlides(slideIndex);
 
