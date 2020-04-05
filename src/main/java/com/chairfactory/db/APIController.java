@@ -59,10 +59,10 @@ public class APIController {
                         data.quantity, data.blueprint, data.purchaser, data.id);
     }
 
-    @GetMapping("/getPurchaserNames")
-    public List<String> purchaserNames() {
+    @GetMapping("/getPurchaserInfo")
+    public List<Map<String, Object>> purchaserInfo(@RequestParam String cols) {
         JdbcTemplate jt = new JdbcTemplate(ds);
-        return jt.queryForList("select full_name from Purchaser", String.class);
+        return jt.queryForList("select " + cols + " from Purchaser");
     }
 
     @GetMapping("/getMinChairPrice")

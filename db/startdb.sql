@@ -12,21 +12,21 @@ DROP TABLE PartType;
 DROP TABLE Manufacturer;
 
 CREATE TABLE PurchaseLocation (
-    country VARCHAR(100),
     city VARCHAR(200),
+    country VARCHAR(100),
 
-    PRIMARY KEY (country, city)
+    PRIMARY KEY (city, country)
 );
 
 CREATE TABLE Purchaser (
     username VARCHAR(64),
     user_password VARCHAR(32),
     full_name VARCHAR(32),
-    country VARCHAR(100) NOT NULL,
     city VARCHAR(200) NOT NULL,
+    country VARCHAR(100) NOT NULL,
 
     PRIMARY KEY (username),
-    FOREIGN KEY (country, city) REFERENCES PurchaseLocation
+    FOREIGN KEY (city, country) REFERENCES PurchaseLocation
     ON UPDATE CASCADE
     ON DELETE NO ACTION
 );
@@ -141,17 +141,19 @@ CREATE TABLE ChairBlueprintRequiresPartType (
 );
 
 --sample data
-insert into purchaselocation values ('Netherlands', 'Amsterdam');
+insert into purchaselocation values ('Amsterdam', 'Netherlands');
 insert into purchaselocation values ('Singapore', 'Singapore');
 insert into purchaselocation values ('Bangkok', 'Thailand');
 insert into purchaselocation values ('Izmir', 'Turkey');
+insert into purchaselocation values ('Vancouver', 'Canada');
 
-insert into purchaser values ('user1', 'pass1', 'User_1', 'Netherlands', 'Amsterdam');
-insert into purchaser values ('user2', 'pass2', 'User_2', 'Netherlands', 'Amsterdam');
+insert into purchaser values ('user1', 'pass1', 'User_1', 'Amsterdam', 'Netherlands');
+insert into purchaser values ('user2', 'pass2', 'User_2', 'Amsterdam', 'Netherlands');
 insert into purchaser values ('user3', 'pass3', 'User_3', 'Singapore', 'Singapore');
 insert into purchaser values ('user4', 'pass4', 'User_4', 'Bangkok', 'Thailand');
 insert into purchaser values ('user5', 'pass5', 'User_5', 'Izmir', 'Turkey');
 insert into purchaser values ('user6', 'pass6', 'User_6', 'Bangkok', 'Thailand');
+insert into purchaser values ('user7', '123456', 'User_7', 'Vancouver', 'Canada');
 
 insert into chairblueprint values ('S', '5', '4');
 insert into chairblueprint values ('M', '10', '9');

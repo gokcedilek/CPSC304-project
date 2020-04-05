@@ -84,13 +84,52 @@ function setUpGetPurchaserNames() {
     $("#get_purchaser_names_submit").on("click", function (e) {
         e.preventDefault(); // Prevent the submit button from re-loading the page
 
-        axios.get("/getPurchaserNames").then((res) => {
-            $("#get_purchaser_names_fail_alert").hide();
-            let html = "<ul>";
-            for(let name of res.data) {
-                html += "<li>" + name + "</li>";
+        const cols = [];
+        if ($("#get_purchaser_names_username").prop("checked")) {
+            cols.push("username");
+        }
+        if ($("#get_purchaser_names_password").prop("checked")) {
+            cols.push("user_password");
+        }
+        if ($("#get_purchaser_names_name").prop("checked")) {
+            cols.push("full_name");
+        }
+        if ($("#get_purchaser_names_country").prop("checked")) {
+            cols.push("country");
+        }
+        if ($("#get_purchaser_names_city").prop("checked")) {
+            cols.push("city");
+        }
+
+        if (!cols.length) {
+            $("#get_purchaser_names_fail_alert > span").html("Please select at least one column!");
+            $("#get_purchaser_names_fail_alert").fadeIn();
+            $("#get_purchaser_names_success_alert").hide();
+            return;
+        }
+
+
+
+        axios.get("/getPurchaserInfo", {
+            params: {
+                cols: cols.join(",")
             }
-            html += "</ul>";
+        }).then((res) => {
+            $("#get_purchaser_names_fail_alert").hide();
+            let html;
+            if(res.data.length){
+                html = "<ul>";
+                for(let item of res.data) {
+                    let line = "";
+                    for (let col in item) {
+                        line += `${col}: ${item[col]}, `;
+                    }
+                    html += `<li> ${line.substring(0, line.length - 2)} </li>`;
+                }
+                html += "</ul>";
+            } else {
+                html = "There are no results for this query!";
+            }
             $("#get_purchaser_names_success_alert > span").html(html);
             $("#get_purchaser_names_success_alert").fadeIn();
             console.log(res);

@@ -40,15 +40,36 @@
 <div class="dropdown">
     <button class="dropbtn">Purchaser</button>
     <div class="dropdown-content">
-        <a href="Get_Purchaser_Names.html">List Purchaser Names</a>
+        <a href="Get_Purchaser_Info.html">List Purchaser Info</a>
     </div>
 </div>
 
 <br>
 <div class="container">
-    <b><p class="form-group">Purchaser Names</p></b>
+    <b><p class="form-group">Purchaser Info</p></b>
     <form>
-        <button type="submit" class="btn btn-primary" id="get_purchaser_names_submit">Get Purchaser Names</button>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="get_purchaser_names_username">
+            <label class="form-check-label" for="get_purchaser_names_username">Username</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="get_purchaser_names_password">
+            <label class="form-check-label" for="get_purchaser_names_password">Password</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="get_purchaser_names_name">
+            <label class="form-check-label" for="get_purchaser_names_name">Full Name</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="get_purchaser_names_country">
+            <label class="form-check-label" for="get_purchaser_names_country">Country</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="get_purchaser_names_city">
+            <label class="form-check-label" for="get_purchaser_names_city">City</label>
+        </div>
+        <br/>
+        <button type="submit" class="btn btn-primary" id="get_purchaser_names_submit">Get Purchaser Info</button>
         <br/>
         <br/>
         <div class="alert alert-success alert-dismissible" style="display:none" role="alert" id="get_purchaser_names_success_alert">
